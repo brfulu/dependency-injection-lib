@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InjectionEngine {
+class InjectionEngine {
     private static InjectionEngine instance;
 
     private Map<Class, Object> singletons;
@@ -20,14 +20,14 @@ public class InjectionEngine {
         singletons = new HashMap<>();
     }
 
-    public static InjectionEngine getInstance() {
+    static InjectionEngine getInstance() {
         if (instance == null) {
             instance = new InjectionEngine();
         }
         return instance;
     }
 
-    public Object createInstance(Class cls) throws Exception {
+    Object createInstance(Class cls) throws Exception {
         Object instance = getInstance(cls);
         if (instance == null) throw new MissingDependencyException();
 

@@ -3,7 +3,7 @@ package com.fulu.depinjlib.core;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DependencySupplier {
+class DependencySupplier {
     private static DependencySupplier instance;
 
     private Map<Class, Class> dependencies;
@@ -12,19 +12,19 @@ public class DependencySupplier {
         dependencies = new HashMap<>();
     }
 
-    public static DependencySupplier getInstance() {
+    static DependencySupplier getInstance() {
         if (instance == null) {
             instance = new DependencySupplier();
         }
         return instance;
     }
 
-    public void supplyDependency(Class parent, Class child) {
+    void supplyDependency(Class parent, Class child) {
         dependencies.put(parent, child);
     }
 
-    public Object getImplementation(Class parent) throws Exception {
+    Object getImplementation(Class parent) throws Exception {
         Class cls = dependencies.get(parent);
-        return cls == null ? cls : cls.getConstructor().newInstance();
+        return cls == null ? null : cls.getConstructor().newInstance();
     }
 }
