@@ -5,7 +5,7 @@ import com.fulu.depinjlib.annotation.Bean;
 
 @Bean(scope = "singleton")
 public class Person {
-    @Autowire
+    @Autowire(verbose = true)
     private Job job;
 
     public long getSalary() {

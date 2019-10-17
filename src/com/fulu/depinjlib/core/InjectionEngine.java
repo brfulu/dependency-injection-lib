@@ -2,13 +2,12 @@ package com.fulu.depinjlib.core;
 
 import com.fulu.depinjlib.annotation.Autowire;
 import com.fulu.depinjlib.annotation.Bean;
-import com.fulu.depinjlib.annotation.Component;
 import com.fulu.depinjlib.annotation.Service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +32,18 @@ public class InjectionEngine {
         if (instance == null) throw new MissingDependencyException();
 
         Field[] fields = cls.getDeclaredFields();
-        for (Field f : fields) {
-            Class fieldType = f.getType();
-            Annotation autowire = f.getAnnotation(Autowire.class);
-
+        for (Field field : fields) {
+            Autowire autowire = field.getAnnotation(Autowire.class);
             if (autowire != null) {
-                Object fieldInstance = createInstance(fieldType);
-                f.setAccessible(true);
-                f.set(instance, fieldInstance);
+                field.setAccessible(true);
+                Object fieldInstance = createInstance(field.getType());
+                field.set(instance, fieldInstance);
+                if (autowire.verbose()) {
+                    System.out.println(String.format("Initialized <%s> <%s> in <%s> on <%s> with <%s>",
+                            field.getType().getSimpleName(), field.getName(), cls.getSimpleName(),
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                            fieldInstance.hashCode()));
+                }
             }
         }
 
