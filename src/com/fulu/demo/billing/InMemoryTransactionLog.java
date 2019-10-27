@@ -4,7 +4,7 @@ import com.fulu.depinjlib.annotation.Bean;
 import com.fulu.depinjlib.annotation.Component;
 import com.fulu.depinjlib.annotation.enums.Scope;
 
-@Bean(scope = Scope.SINGLETON)
+@Bean(scope = Scope.PROTOTYPE)
 public class InMemoryTransactionLog implements TransactionLog {
     @Override
     public void logChargeResult(ChargeResult chargeResult) {

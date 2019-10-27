@@ -40,6 +40,7 @@ class InjectionEngine {
                 field.setAccessible(true);
                 Object fieldInstance = createInstance(field.getType());
                 field.set(instance, fieldInstance);
+                field.setAccessible(false);
                 if (autowire.verbose()) {
                     System.out.println(getVerboseOutput(field.getType().getSimpleName(), field.getName(),
                             cls.getSimpleName(), fieldInstance.hashCode()));

@@ -14,9 +14,9 @@ public class Main {
 
         Receipt receipt1 = billingService.chargeOrder(pizzaOrder, creditCard);
         System.out.println(receipt1.getReceiptMessage());
-
+//
         billingService = DepInjLib.createInstance(RealBillingService.class);
-        Receipt receipt2 = billingService.chargeOrder(pizzaOrder, creditCard);
-        System.out.println(receipt2.getReceiptMessage());
+//        Receipt receipt2 = billingService.chargeOrder(pizzaOrder, creditCard);
+//        System.out.println(receipt2.getReceiptMessage());
     }
 }
