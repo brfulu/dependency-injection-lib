@@ -1,13 +1,12 @@
 package com.fulu.demo.billing;
 
-public class CreditCard {
-    private String cardNumber;
+import com.fulu.depinjlib.annotation.Autowire;
 
-    public CreditCard(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+public class CreditCard {
+    @Autowire(verbose = true)
+    private CardInfo cardInfo;
 
     public String getCardNumber() {
-        return cardNumber;
+        return cardInfo.getNumber();
     }
 }

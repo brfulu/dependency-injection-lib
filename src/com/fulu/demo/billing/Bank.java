@@ -9,7 +9,7 @@ public class Bank {
     private Object test;
 
     public void debit(Double amount) {
-        System.out.println(test.hashCode());
+//        System.out.println(test.hashCode());
         System.out.println("Bank debits amount=" + amount);
     }
 }

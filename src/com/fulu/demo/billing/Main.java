@@ -10,7 +10,7 @@ public class Main {
         BillingService billingService = DepInjLib.createInstance(RealBillingService.class);
 
         PizzaOrder pizzaOrder = new PizzaOrder("Very-Veggie", 100d);
-        CreditCard creditCard = new CreditCard("12345");
+        CreditCard creditCard = DepInjLib.createInstance(CreditCard.class);
 
         Receipt receipt1 = billingService.chargeOrder(pizzaOrder, creditCard);
         System.out.println(receipt1.getReceiptMessage());

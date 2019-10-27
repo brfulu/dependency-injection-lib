@@ -23,6 +23,7 @@ public class RealBillingService implements BillingService {
 
     public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
         try {
+            System.out.println(creditCard.getCardNumber());
             ChargeResult result = processor.charge(creditCard, order.getAmount());
             transactionLog.logChargeResult(result);
 
