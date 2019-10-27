@@ -31,6 +31,7 @@ class InjectionEngine {
     Object createInstance(Class cls) throws Exception {
         Object instance = newInstance(cls);
         if (instance == null) throw new MissingDependencyException();
+        cls = instance.getClass();
 
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
@@ -59,6 +60,7 @@ class InjectionEngine {
     private Object newInstance(Class cls) throws Exception {
         if (cls.isInterface()) {
             cls = DependencySupplier.getInstance().getImplementation(cls);
+            if (cls == null) return null;
         }
 
         return isSingleton(cls) ? getSingletonInstance(cls) : cls.getConstructor().newInstance();
