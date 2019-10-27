@@ -9,6 +9,10 @@ public class Main {
             DepInjLib.supplyDependency(Job.class, Architect.class);
             Person person = DepInjLib.createInstance(Person.class);
             System.out.println(person.getSalary());
+
+            Person person2 = DepInjLib.createInstance(Person.class);
+            Person person3 = DepInjLib.createInstance(Person.class);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

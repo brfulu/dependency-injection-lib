@@ -6,6 +6,11 @@ import com.fulu.depinjlib.annotation.enums.Scope;
 
 @Bean(scope = Scope.SINGLETON)
 public class Person {
+    private String firstName;
+
+    @Autowire()
+    private String lastName;
+
     @Autowire(verbose = true)
     private Job job;
 

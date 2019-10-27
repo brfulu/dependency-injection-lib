@@ -23,8 +23,7 @@ class DependencySupplier {
         dependencies.put(parent, child);
     }
 
-    Object getImplementation(Class parent) throws Exception {
-        Class cls = dependencies.get(parent);
-        return cls == null ? null : cls.getConstructor().newInstance();
+    Class getImplementation(Class parent) {
+        return dependencies.get(parent);
     }
 }

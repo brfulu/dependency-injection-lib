@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 class InjectionEngine {
     private static InjectionEngine instance;
 
@@ -56,15 +57,11 @@ class InjectionEngine {
     }
 
     private Object newInstance(Class cls) throws Exception {
-        Object instance = null;
         if (cls.isInterface()) {
-            instance = DependencySupplier.getInstance().getImplementation(cls);
-        } else if (isSingleton(cls)) {
-            instance = getSingletonInstance(cls);
-        } else {
-            instance = cls.getConstructor().newInstance();
+            cls = DependencySupplier.getInstance().getImplementation(cls);
         }
-        return instance;
+
+        return isSingleton(cls) ? getSingletonInstance(cls) : cls.getConstructor().newInstance();
     }
 
     private Object getSingletonInstance(Class cls) throws Exception {
@@ -82,6 +79,6 @@ class InjectionEngine {
         }
 
         Bean bean = (Bean) cls.getAnnotation(Bean.class);
-        return bean.scope() == Scope.SINGLETON;
+        return bean != null && bean.scope() == Scope.SINGLETON;
     }
 }

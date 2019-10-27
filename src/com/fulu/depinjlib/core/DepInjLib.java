@@ -6,6 +6,7 @@ public class DepInjLib {
         DependencySupplier.getInstance().supplyDependency(parent, child);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T  createInstance(Class<T> cls) throws Exception {
         return (T)InjectionEngine.getInstance().createInstance(cls);
     }
