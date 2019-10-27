@@ -6,7 +6,7 @@ public class DepInjLib {
         DependencySupplier.getInstance().supplyDependency(parent, child);
     }
 
-    public static Object createInstance(Class cls) throws Exception {
-        return InjectionEngine.getInstance().createInstance(cls);
+    public static <T> T  createInstance(Class<T> cls) throws Exception {
+        return (T)InjectionEngine.getInstance().createInstance(cls);
     }
 }

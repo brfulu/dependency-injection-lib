@@ -2,9 +2,9 @@ package com.fulu.depinjlib.core;
 
 import com.fulu.depinjlib.annotation.Autowire;
 import com.fulu.depinjlib.annotation.Bean;
+import com.fulu.depinjlib.annotation.enums.Scope;
 import com.fulu.depinjlib.annotation.Service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +28,7 @@ class InjectionEngine {
     }
 
     Object createInstance(Class cls) throws Exception {
-        Object instance = getInstance(cls);
+        Object instance = newInstance(cls);
         if (instance == null) throw new MissingDependencyException();
 
         Field[] fields = cls.getDeclaredFields();
@@ -39,10 +39,8 @@ class InjectionEngine {
                 Object fieldInstance = createInstance(field.getType());
                 field.set(instance, fieldInstance);
                 if (autowire.verbose()) {
-                    System.out.println(String.format("Initialized <%s> <%s> in <%s> on <%s> with <%s>",
-                            field.getType().getSimpleName(), field.getName(), cls.getSimpleName(),
-                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-                            fieldInstance.hashCode()));
+                    System.out.println(getVerboseOutput(field.getType().getSimpleName(), field.getName(),
+                            cls.getSimpleName(), fieldInstance.hashCode()));
                 }
             }
         }
@@ -50,7 +48,14 @@ class InjectionEngine {
         return instance;
     }
 
-    private Object getInstance(Class cls) throws Exception {
+    private String getVerboseOutput(String fieldType, String fieldName, String parentName, int fieldInstanceHash) {
+        return String.format("Initialized %s %s in %s on [%s] with #%d",
+                fieldType, fieldName, parentName,
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+                fieldInstanceHash);
+    }
+
+    private Object newInstance(Class cls) throws Exception {
         Object instance = null;
         if (cls.isInterface()) {
             instance = DependencySupplier.getInstance().getImplementation(cls);
@@ -77,6 +82,6 @@ class InjectionEngine {
         }
 
         Bean bean = (Bean) cls.getAnnotation(Bean.class);
-        return bean.scope().equals("singleton");
+        return bean.scope() == Scope.SINGLETON;
     }
 }
